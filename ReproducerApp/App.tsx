@@ -6,112 +6,67 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
+  Pressable,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
+  TextInput,
   View,
+  Text,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // Initial description is set with length 10
+  const [description, setDescription] = React.useState<string>('0123456789');
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  // Change description to contain text with length more than 10
+  const handleOnPress = React.useCallback(() => {
+    setDescription('01234567890 01234567890');
+  }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <Pressable style={styles.changeTextBtn} onPress={handleOnPress}>
+          <Text style={styles.text}> Click to change text </Text>
+        </Pressable>
+        <TextInput
+          style={styles.textInput}
+          value={description}
+          maxLength={10}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  changeTextBtn: {
+    margin: 16,
+    backgroundColor: 'green',
+    borderRadius: 3,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  textInput: {
+    padding: 10,
+    fontSize: 14,
+    color: 'black',
+    borderWidth: 2,
+    borderColor: '#a1a1a1',
+    borderRadius: 3,
+    margin: 16,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  text: {
+    padding: 10,
+    fontSize: 14,
+    color: 'black',
+    textAlign: 'center',
   },
-  highlight: {
-    fontWeight: '700',
+  safeArea: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
