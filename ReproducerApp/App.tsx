@@ -24,6 +24,18 @@ function App(): React.JSX.Element {
     setDescription('01234567890 01234567890');
   }, []);
 
+  const [length, setLength] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (description.length > 10) {
+      setLength(
+        `Error Text length (${description.length}) cannot be greater than 10`,
+      );
+    } else {
+      setLength(`Text length ${description.length}`);
+    }
+  }, [description]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -34,7 +46,9 @@ function App(): React.JSX.Element {
           style={styles.textInput}
           value={description}
           maxLength={10}
+          onChangeText={text => setDescription(text)}
         />
+        <Text style={styles.length}>{length}</Text>
       </View>
     </SafeAreaView>
   );
@@ -67,6 +81,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  length: {
+    textAlign: 'left',
+    fontSize: 10,
+    color: 'red',
+    marginLeft: 16,
   },
 });
 
